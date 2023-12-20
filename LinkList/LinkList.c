@@ -170,6 +170,14 @@ int LinkListDelAppointPos(LinkList * pList, int pos)
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
+
+    int flag = 0;
+    /* 需要修改尾指针 */
+    if (pos == pList->len)
+    {
+        flag =1;
+    }
+    LinkList * needDelNode = NULL;
     while (--pos)
     {
         /* 向后移动位置 */
@@ -180,6 +188,11 @@ int LinkListDelAppointPos(LinkList * pList, int pos)
     LinkNode * needDelNod = travelNode->next;
     travelNode->next = needDelNod->next;
 
+    if (flag)
+    {
+        /* 调整尾指针 */
+        pList->tail = travelNode;
+    }
     /* 释放内存 */
     if (needDelNod != NULL)
     {
