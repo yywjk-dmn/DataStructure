@@ -10,20 +10,25 @@ enum STATUS_CODE
     NULL_PTR,
     MALLOC_ERROR,
     INVALID_ACCESS,
+    NOT_FIND,
 };
+
+/* 静态函数只在本源文件（.c）使用 */
+/* 静态前置声明 */
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 /* 链表初始化 */
 int LinkListInit(LinkList ** pList)
 {
     int ret = 0;
-    LinkList *list = (LinkList *)malloc(sizeof(LinkList) * 1);//分配空间
+    LinkList *list = (LinkList *)malloc(sizeof(LinkList) * 1);  //分配空间
     if(list == NULL)
     {
         return MALLOC_ERROR;
     }
     memset(list, 0, sizeof(LinkList) * 1);
 
-    list->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);/* 头插入需要分配空间（有指针但不一定有值) */
+    list->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);  /* 头插入需要分配空间（有指针但不一定有值) */
     if(list->head == NULL)
     {
         return MALLOC_ERROR;
@@ -188,10 +193,50 @@ int LinkListDelAppointPos(LinkList * pList, int pos)
 
 }
 
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos)
+{
+    /* 静态函数只给本源文件的函数用，不需要判断合法性 */
+    int ret;
+
+#if 0
+    LinkList *travelNode = pList->head;
+#else
+    int pos = 1;
+    LinkNode *travelNode = pList->head->next;     //两者的区别
+#endif
+
+    while (travelNode != NULL)
+    {
+        if (travelNode->data == val)     //在链表中找想要的数据
+        {
+            /* 解引用 */
+            *pPos = pos;
+            return pos;
+        }
+        travelNode = travelNode->next;
+        pos++;
+    }
+    *pPos = NOT_FIND;
+    return NOT_FIND;
+}
 /* 链表删除指定数据 */
 int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val)
 {
+    int ret = 0;
 
+    /* 元素在链表中的位置 */
+    int pos = 0;
+    /* 链表的长度 */
+    int size = 0;
+    while (LinkListGetLength(pList, &size) && pos != NOT_FIND)
+    {
+        /* 根据指定的元素得到在链表中所在的位置 */
+        int pos = 0;
+        LinkListAccordAppointValGetPos(pList, val, &pos);
+        LinkListDelAppointPos(pList, pos);
+    }
+    return ret;
+   
 }
 
 /* 获取链表的长度 */
