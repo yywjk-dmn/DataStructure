@@ -336,7 +336,6 @@ int dynamicArrayGetAppointPosVal(dynamicArray *pArray,int pos, ELEMENTTYPE *pVal
 
 }
 
-
 /* 数组排序 */
 int dynamicArrayAppointWaySort(dynamicArray *pArray, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
