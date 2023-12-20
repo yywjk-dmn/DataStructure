@@ -32,7 +32,7 @@ int LinkListInit(LinkList ** pList)
     /* 清空脏数据 */
     memset(list->head, 0,sizeof(LinkNode) * 1);
 
-    /* 好像有问题 */
+    /*  */
     list->head->data = 0;
     list->head->next = NULL;
     
@@ -80,7 +80,7 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
         return MALLOC_ERROR;
     }
 
-    /* 清楚脏数据 */
+    /* 清除脏数据 */
     memset(newNode, 0, sizeof(LinkNode) * 1);
 #if 0
     newNode ->data = 0;
@@ -92,7 +92,7 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 #if 1
     /* 头结点和虚拟头结点不一样 */
     /* 从虚拟头结点开始遍历 */
-    LinkNode * travelNode = pList->head; /* pList是连接结点的线 */
+    LinkNode * travelNode = pList->head; 
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
@@ -135,18 +135,56 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 /* 链表头删 */
 int LinkListHeadDel(LinkList * pList)
 {
+    return LinkListDelAppointPos(pList, 1);
 
 }
 
 /* 链表尾删*/
 int LinkListTailDel(LinkList * pList)
 {
-
+    return LinkListDelAppointPos(pList, pList->len);
 }
 
 /* 链表指定位置删除 */
 int LinkListDelAppointPos(LinkList * pList, int pos)
 {
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+
+    /* 在链表中有数据才可以删除 */
+    if (pos <= 0 || pos > pList->len)
+    {
+        return INVALID_ACCESS;
+    }
+
+#if 1
+    LinkNode * travelNode = pList->head;
+#else
+    LinkNode * travelNode = pList->head->next;
+#endif
+    while (--pos)
+    {
+        /* 向后移动位置 */
+        travelNode = travelNode->next;
+        //pos--;
+    }
+    //跳出循环找到的是哪一个结点
+    LinkNode * needDelNod = travelNode->next;
+    travelNode->next = needDelNod->next;
+
+    /* 释放内存 */
+    if (needDelNod != NULL)
+    {
+        free(needDelNod);
+        needDelNod = NULL;
+    }
+
+    /* 链表长度减一 */
+    (pList->len)--;
+    return ret;
 
 }
 
