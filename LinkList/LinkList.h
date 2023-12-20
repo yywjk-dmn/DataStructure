@@ -3,11 +3,11 @@
 
 #define ELEMENTTYPE int
 /* 链表结点取别名 */
-typedef struct LinkLinst
+typedef struct LinkList
 {
     ELEMENTTYPE data;
     /* 指向下一个结点的指针 */
-    struct LinkLinst *next;   /* 指针的类型为什么是结点 */
+    struct LinkList *next;   /* 指针的类型为什么是结点 */
 } LinkNode;
 
 typedef struct  LINKLIST
@@ -21,33 +21,36 @@ typedef struct  LINKLIST
 } LINKLIST;
 
 /* 链表初始化 */
-int LinkListInit();
+int LinkListInit(LinkList **pList);
 
 /* 链表头插 */
-int LinkListHeadInsert();
+int LinkListHeadInsert(LinkList *pList, ELEMENTTYPE val);
 
 /* 链表尾插 */
-int LinkListTailInsert();
+int LinkListTailInsert(LinkList *pList, ELEMENTTYPE val);
 
 /* 链表指定位置插入 */
-int LinkListAppointPosInsert();
+int LinkListAppointPosInsert(LinkList *pList,int pos, ELEMENTTYPE val);
 
 /* 链表头删 */
-int LinkListHeadDel();
+int LinkListHeadDel(LinkList * pList);
 
 /* 链表尾删 */
-int LinkListTailDel();
+int LinkListTailDel(LinkList * pList);
 
 /* 链表指定位置删除 */
-int LinkListDelAppointPos();
+int LinkListDelAppointPos(LinkList * pList, int pos);
 
 /* 链表删除指定数据 */
-int LinkListDelAppointData();
+int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE *val);
 
 /* 获取链表的长度 */
-int LinkListGetLength();
+int LinkListGetLength(LinkList * pList, int *psize);
 
 /* 链表的销毁 */
-int LinkListDestroy();
+int LinkListDestroy(LinkList * pList);
+
+/* 链表遍历接口 */
+int LinkListForeach(LinkList * pList);
 
 #endif
