@@ -2,7 +2,7 @@
 #include "LinkList.h"
 #include <stdlib.h>
 #include <string.h>
-
+   
 /* 状态码 */
 enum STATUS_CODE
 {
@@ -28,7 +28,7 @@ int LinkListInit(LinkList ** pList)
     }
     memset(list, 0, sizeof(LinkList) * 1);
 
-    list->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);  /* 头插入需要分配空间（有指针但不一定有值) */
+    list->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);  /* 头节点需要分配空间（有指针但不一定有值) */
     if(list->head == NULL)
     {
         return MALLOC_ERROR;
@@ -37,7 +37,6 @@ int LinkListInit(LinkList ** pList)
     /* 清空脏数据 */
     memset(list->head, 0,sizeof(LinkNode) * 1);
 
-    /*  */
     list->head->data = 0;
     list->head->next = NULL;
     
@@ -49,6 +48,8 @@ int LinkListInit(LinkList ** pList)
 
     /* 二级指针*/
     *pList = list;
+
+    return ret;
 
 }
 
@@ -67,7 +68,7 @@ int LinkListTailInsert(LinkList * pList, ELEMENTTYPE val)
 /* 链表指定位置插 */
 int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 {
-    int ret;
+    int ret = 0;
     if(pList == NULL)
     {
         return NULL_PTR;
@@ -87,10 +88,7 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 
     /* 清除脏数据 */
     memset(newNode, 0, sizeof(LinkNode) * 1);
-#if 0
-    newNode ->data = 0;
-    newNode-> 
-#endif
+
     /* 赋值 */
     newNode->data = val;
 
@@ -106,14 +104,13 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
     if(pos == pList->len)
     {
         travelNode = pList->tail;
-
     }
     else
     {
         while (pos)
         {
-        travelNode = travelNode->next;/* 找到想要插入数据的位置 */
-        pos--;
+            travelNode = travelNode->next;/* 找到想要插入数据的位置 */
+            pos--;
         }
     }
     newNode->next = travelNode->next;
@@ -141,7 +138,6 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 int LinkListHeadDel(LinkList * pList)
 {
     return LinkListDelAppointPos(pList, 1);
-
 }
 
 /* 链表尾删*/
@@ -255,7 +251,7 @@ int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val)
 /* 获取链表的长度 */
 int LinkListGetLength(LinkList * pList, int *pSize)
 {
-    int ret = 0;
+
     if(pList == NULL)
     {
         return NULL_PTR;
@@ -318,6 +314,9 @@ int LinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
         #endif
         travelNode = travelNode->next;
     }
+
+    // printFunc1(travelNode->data,travelNode->next->data);
+
 #endif
     return ret;
 }

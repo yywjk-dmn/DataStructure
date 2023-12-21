@@ -5,7 +5,6 @@
 #define BUFFER_SIZE 16
 #define DEFAULIT_SIZE 2
 
-
 /* 结构体 */
 /* 1.什么叫结构体：将不同类型的属性封装成一个类型 */
 /* 2.怎样定义结构体 */
@@ -124,7 +123,7 @@ int main()
     stu.height = 130;
     strncpy(stu.name, "zahngsan", sizeof(stu.name) - 1);
 
-#if 1
+#else
     /* 回顾指针 */
     int a = 5;
     int *p = &a;
@@ -133,10 +132,9 @@ int main()
     stuInfo * info = &stu;
     /* 结构体指针 读数据 或者写指针。 都是用-> */
     info->age = 30;
-#endif
+
     printStruct(&stu);
     printf("stu.age:%d\n", stu.age);
-
 #endif
 
 #if 0 

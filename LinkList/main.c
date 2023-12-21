@@ -25,9 +25,9 @@ int printBasicData(void *arg)
     printf("data:%d\n", data);
 
 }
+
 int main()
 {
-    
     LinkList * list = NULL;
     /* 初始化链表 */
     LinkListInit(&list);
@@ -37,7 +37,7 @@ int main()
     /* 插入数据 */
     for (int idx = 0; idx < BUFFER_SIZE; idx++)
     {
-        LinkListHeadInsert(list, idx);
+        LinkListHeadInsert(list, (void *)&buffer[idx]);
     }
 
     /* 获取链表的长度 */
@@ -46,13 +46,14 @@ int main()
     printf("size:%d\n", size);
 
     /* 链表的遍历 */
-    LinkListForeach(list, printStruct);
-
-    /* 头插 */
-    LinkListHeadInsert(list, 8);
-    printf("头插之后的链表：\n");
     LinkListForeach(list, printBasicData);
+
+    // /* 头插 */
+    // LinkListHeadInsert(list, );
+    // printf("头插之后的链表：\n");
+    // LinkListForeach(list, printBasicData);
 #endif
+#if 0
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
     memset(&stu2, 0, sizeof(stu2));
@@ -80,7 +81,7 @@ int main()
 
     /* 链表的遍历 */
     LinkListForeach(list, printStruct);
-
+#endif
 
 
     return 0;

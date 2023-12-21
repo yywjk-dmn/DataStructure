@@ -1,14 +1,15 @@
-#ifndef __LinkList_H_
-#define __LinkList_H_
+#ifndef __LINKLIST_H_
+#define __LINKLIST_H_
 
 #define ELEMENTTYPE void *
 /* 链表结点 取别名*/
 typedef struct LinkNode
 {
+    /* 指针的内容 */
     ELEMENTTYPE data;
     /* 指向下一个结点的指针 */
-    struct LinkNode *next; /* 指针类型 */
-}LinkNode;
+    struct LinkNode *next;   /* 指针类型 */
+} LinkNode;
 
 /* 链表 */
 typedef struct LinkList
@@ -39,7 +40,7 @@ int LinkListHeadDel(LinkList * pList);
 int LinkListTailDel(LinkList * pList);
 
 /* 链表指定位置删除 */
-int LinkListDelAppointPos(LinkList * pList, int pos);
+int LinkListDelAppointPos(LinkList * pList, int pos); 
 
 /* 链表删除指定数据 */
 int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val);
