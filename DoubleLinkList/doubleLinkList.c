@@ -146,7 +146,7 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList * pList, int pos, ELEMENTTYPE 
             travelNode = travelNode->next;/* 找到想要插入数据的位置 */
             pos--;
         }
-        travelNode->next->prev = newNode;  //3  空链表 尾插
+        travelNode->next->prev = newNode;  //3  空链表 尾插  有点不清楚
     }   
     newNode->next = travelNode->next;  //1
     newNode->prev = travelNode;  //2
@@ -202,14 +202,21 @@ int DoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
 #else
     DoubleLinkNode * travelNode = pList->head->next;
 #endif
-
+    DoubleLinkNode * needDelNode = NULL;
     int flag = 0;
     /* 需要修改尾指针 */
     if (pos == pList->len)
     {
         flag = 1;
+
+        /* 尾指针 */
+        DoubleLinkNode * tmpNode = pList->tail;
+        /* 调整尾指针 */
+        pList->tail = pList->tail->prev;
+        needDelNode = tmpNode;
+
     }
-    DoubleLinkNode * needDelNode = NULL;
+    
     while (--pos)
     {
         /* 向后移动位置 */
@@ -217,19 +224,14 @@ int DoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         //pos--;
     }
     //跳出循环找到的是哪一个结点
-    needDelNode = travelNode->next;
-    travelNode->next = needDelNode->next;
+    needDelNode = travelNode->next;           //1
+    travelNode->next = needDelNode->next;     //2
+    needDelNode->next->prev = travelNode;     //3
 
-    if (flag)
-    {
-        /* 调整尾指针 */
-        pList->tail = travelNode;
-    }
     /* 释放内存 */
     if (needDelNode != NULL)
     {
-        free(needDelNode);
-        needDelNode = NULL;
+        free(needDelNode); 
     }
 
     /* 链表长度减一 */
