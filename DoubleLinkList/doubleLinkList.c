@@ -137,6 +137,7 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList * pList, int pos, ELEMENTTYPE 
     if(pos == pList->len)
     {
         travelNode = pList->tail;
+        flag = 1;
     }
     else
     {
@@ -145,12 +146,12 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList * pList, int pos, ELEMENTTYPE 
             travelNode = travelNode->next;/* 找到想要插入数据的位置 */
             pos--;
         }
-    }
-    newNode->next = travelNode->next;
-    newNode->prev = travelNode;
-    travelNode->next->prev = newNode;
-    travelNode->next = newNode;
-
+        travelNode->next->prev = newNode;  //3  空链表 尾插
+    }   
+    newNode->next = travelNode->next;  //1
+    newNode->prev = travelNode;  //2
+    travelNode->next = newNode;  //4
+   
     if(flag)
     {
         pList->tail = newNode;
