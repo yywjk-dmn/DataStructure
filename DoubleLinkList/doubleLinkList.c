@@ -369,3 +369,25 @@ int DoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE))
 #endif
     return ret;
 }
+
+/* 链表的逆序遍历 */
+int DoubleLinkListReverseForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE))
+{
+    int ret = 0;
+    if(pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    DoubleLinkNode * travelNode = pList->tail;
+    while (travelNode != pList->head)
+    {
+        /* 包装器，钩子，回调函数 */
+        printFunc(travelNode->data);
+
+        /* 移动前指针 */
+        travelNode = travelNode->prev;
+    }
+
+    return ret;
+
+}
