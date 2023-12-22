@@ -325,7 +325,6 @@ int LinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
         #endif
         travelNode = travelNode->next;
     }
-
     // printFunc1(travelNode->data,travelNode->next->data);
 
 #endif

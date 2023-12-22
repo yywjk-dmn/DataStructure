@@ -26,6 +26,19 @@ int printBasicData(void *arg)
 
 }
 
+int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
+{
+    if (val1 > val2)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+}
+
 int main()
 {
     LinkList * list = NULL;
