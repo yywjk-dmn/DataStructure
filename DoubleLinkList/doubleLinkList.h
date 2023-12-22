@@ -7,18 +7,13 @@ typedef struct DoubleLinkNode
 {
     /* 指针的内容 */
     ELEMENTTYPE data;
-
-    struct DoubleDoubleLinkNode * prev;
+    
+    struct DoubleLinkNode * prev;
     /* 指向下一个结点的指针 */
-    struct DoubleDoubleLinkNode *next;   /* 指针类型 */
+    struct DoubleLinkNode *next;   /* 指针类型 */
 
 } DoubleLinkNode;
 
-typedef struct DoubleDoubleLinkNode
-{
-    DoubleLinkNode node;
-
-} DoubleDoubleLinkNode;
 
 
 /* 链表 */
