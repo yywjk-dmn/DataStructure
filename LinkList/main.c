@@ -28,7 +28,8 @@ int printBasicData(void *arg)
 
 int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
 {
-    if (val1 > val2)
+    /* 函数类型是void *   所以需要对类型强转 */
+    if (*(int *)val1 == *(int *)val2)   
     {
         return 1;
     }
