@@ -11,6 +11,37 @@ enum STATUS_CODE
     NOT_FIND,
 };
 
+/* 静态函数的前置声明 */
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+
+/* 创建结点 */
+static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parent);
+
+/* 创建结点 */
+static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parent)
+{
+    /* 分配根结点 */
+    BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
+    if (newBstNode == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    memset(newBstNode, 0, sizeof(BSTreeNode) *1);
+    {
+        newBstNode->data = 0;
+        newBstNode->left = NULL;
+        newBstNode->right = NULL;
+        newBstNode->parent = NULL;
+    }
+
+    /* 赋值 */
+    newBstNode->data = val;
+
+    newBstNode->parent = parent;
+    return newBstNode;
+
+}
+
 
 /* 二叉搜索树的初始化 */
 int binarySearchTreeInit(BinarySearchTree **pBstree)
@@ -30,7 +61,7 @@ int binarySearchTreeInit(BinarySearchTree **pBstree)
         bstree->size = 0;
     }
     
-
+#if 0
     /* 分配根节点 */
     bstree->root = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
     if (bstree->root == NULL)
@@ -49,6 +80,8 @@ int binarySearchTreeInit(BinarySearchTree **pBstree)
         bstree->root->parent = NULL;
 
     }
+#endif
+    bstree->root = createBSTreeNewNode(0, NULL);
    
 
     *pBstree = bstree;
@@ -56,12 +89,15 @@ int binarySearchTreeInit(BinarySearchTree **pBstree)
 
 }
 
+#if 0
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
 {
    return val1 - val2;
 }
+#endif
+
 /* 二叉搜索树的插入 */
-int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
+int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
     int ret = 0;
     /* 判断是否是空树 */
@@ -104,6 +140,7 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
 
     }
     
+    #if 0
     /* 分配根结点 */
     BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
     if (newBstNode == NULL)
@@ -119,6 +156,10 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     }
     /* 新结点赋值 */
     newBstNode->data = val;
+    #endif
+
+    BSTreeNode * newBstNode = createBSTreeNewNode(val, parentNode);
+
 
     /* 挂在左子树 */
     if (cmp < 0)
