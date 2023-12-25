@@ -76,14 +76,14 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
 
     /* travelNode  指向根节点 */
     BSTreeNode * travelNode = pBstree->root;
-    BSTreeNode * parentlNode = pBstree->root;
+    BSTreeNode * parentNode = pBstree->root;
 
     /* 确定符号到底放在左边还是右边 */
     int cmp = 0;
     while (travelNode != NULL)
     {
         /* 标记父结点 */
-        parentlNode = travelNode;
+        parentNode = travelNode;
         cmp = compareFunc(val, travelNode->data);
 
         /* 插入元素 < 遍历到的结点 */
@@ -123,17 +123,17 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     /* 挂在左子树 */
     if (cmp < 0)
     {
-        parentlNode->left = newBstNode;
+        parentNode->left = newBstNode;
 
     }
     /* 挂在右子树 */
     else 
     {
-        parentlNode->right = newBstNode;
+        parentNode->right = newBstNode;
     }
 
-    /* 新结点的父结点 */
-    newBstNode->parent = parentlNode;
+    /* 维护新结点的父结点 */
+    newBstNode->parent = parentNode;
 
     /* 树的大小更新 */
     (pBstree->size)++;
