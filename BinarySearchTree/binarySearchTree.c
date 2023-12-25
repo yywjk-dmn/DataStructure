@@ -1,4 +1,5 @@
 #include "binarySearchTree.h"
+#include "doubleLinkListQueue.h"
 #include <stdlib.h>
 
 /* 状态码 */
@@ -227,6 +228,36 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
 {
     int ret = 0;
 
+    /* 初始化队列 */
+    DoubleLinkListQueue *queue = NULL;
+    doubleLinkListQueueInit(&queue);
+
+    /* 将根结点入队 */
+    doubleLinkListQueuePush(queue, pBstree->root);
+
+    /* 判断队列是否为空 */
+    BSTreeNode *nodeVal = NULL;
+    while (doubleLinkListQueueIsEmpty(queue))
+    {
+        doubleLinkListQueueTop(queue, (void **)&nodeVal);
+        printf("data:&d\n", nodeVal->data);
+        doubleLinkListQueuePop(queue);
+
+        /* 将左子树入队 */
+        if (nodeVal->left != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->left);
+        }
+
+        /* 将右子树入队 */
+        if (nodeVal->right != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->right);
+        }
+    }
+
+    /* 释放队列 */
+    doubleLinkListQueueDestory(queue);
 
     return ret;                                            
 
@@ -261,6 +292,6 @@ static BSTreeNode * baseAppointValGetBSTressNode(BinarySearchTree *pBstree, ELEM
 /* 二叉搜索树是否包含指定元素 */
 int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
-    baseAppointValGetBSTressNode(pBstree, val);
+    return baseAppointValGetBSTressNode(pBstree, val) == NULL ? 0 : 1;
 
 }
