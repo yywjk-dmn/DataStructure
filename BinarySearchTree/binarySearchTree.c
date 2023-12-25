@@ -185,3 +185,27 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
 
 
 }
+
+/* 二叉搜索树的前序遍历 */
+int binarySearchTreePreOrderTravel(BinarySearchTree *pBstree)
+{
+
+}
+
+/* 二叉搜索树的中序遍历 */
+int binarySearchTreeInOrderTravel(BinarySearchTree *pBstree)
+{
+
+}
+
+/* 二叉搜索树的后序遍历 */
+int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree)
+{
+
+}
+
+/* 二叉遍历树的层序遍历 */
+int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
+{
+    
+}
