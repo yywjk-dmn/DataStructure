@@ -63,5 +63,14 @@ int DoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE))
 /* 链表的逆序遍历 */
 int DoubleLinkListReverseForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE));
 
+/* 获取链表 头位置的值 */
+int DoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *val);
+
+/* 获取链表 尾位置的值 */
+int DoubleLinkListGetTailVal(DoubleLinkList * pList, ELEMENTTYPE *val);
+
+/* 获取链表指定位指的值 */
+int DoubleLinkListGetAppointPosVal(DoubleLinkList * pList,int pos, ELEMENTTYPE *pVal);
+
 
 #endif //__DOUBLEDoubleLinkList_H_
