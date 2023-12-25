@@ -46,7 +46,7 @@ static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parent)
 
 
 /* 二叉搜索树的初始化 */
-int binarySearchTreeInit(BinarySearchTree **pBstree, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+int binarySearchTreeInit(BinarySearchTree **pBstree, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*printFunc)(ELEMENTTYPE val))
 {
     int ret = 0;
     BinarySearchTree * bstree = (BinarySearchTree *)malloc(sizeof(BinarySearchTree) * 1);
@@ -63,6 +63,9 @@ int binarySearchTreeInit(BinarySearchTree **pBstree, int (*compareFunc)(ELEMENTT
         bstree->size = 0;
         /* 钩子函数在这边赋值 */
         bstree->compareFunc = compareFunc;
+
+        /* 钩子函数包装器 自定义打印 */
+        bstree->printFunc = printFunc;
     }
     
 #if 0
@@ -240,7 +243,9 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
     while (doubleLinkListQueueIsEmpty(queue))
     {
         doubleLinkListQueueTop(queue, (void **)&nodeVal);
-        printf("data:&d\n", nodeVal->data);
+
+        //printf("data:&d\n", nodeVal->data);
+        pBstree->printFunc(nodeVal->data);
         doubleLinkListQueuePop(queue);
 
         /* 将左子树入队 */
