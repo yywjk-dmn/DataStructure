@@ -1,7 +1,7 @@
 #ifndef __BINARY_SEARCH_TREE_H_
 #define __BINARY_SEARCH_TREE_H_
 
-#define ELEMENTTYPE int
+#define ELEMENTTYPE void*
 typedef struct BSTreeNode
 {
     ELEMENTTYPE data;
@@ -46,6 +46,9 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree);
 
 /* 二叉遍历树的层序遍历 */
 int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree);
+
+/* 获取二叉搜索数的高度 */
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree);
 
 
 #endif
