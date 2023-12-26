@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "common.h"
 
 /* 状态码 */
 enum STATUS_CODE
@@ -28,7 +29,7 @@ int dynamicArrayInit(dynamicArray *pArray, int capacity)
     }
 
     /* 避免传入非法值 */
-    if (capacity < 0)
+    if (capacity <+ 0)
     {
         capacity = DEFAULIT_SIZE;
     }
@@ -68,7 +69,7 @@ static expandDynamicCapacity(dynamicArray *pArray)
     }
 
     /* 把之前的数据全部拷贝过来 */
-    for (int idx = 0;idx < pArray; idx++)
+    for (int idx = 0;idx < pArray->len; idx++)
     {
         pArray->data[idx] = tmpPtr[idx];
     }
@@ -262,7 +263,7 @@ int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val)
 }
 
 /* 动态数组的销毁 */
-int dynamicArrayDestroy(dynamicArray *pArray, int pos)
+int dynamicArrayDestroy(dynamicArray *pArray)
 {
     if (pArray == NULL)
     {

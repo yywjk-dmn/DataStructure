@@ -1,14 +1,6 @@
 #ifndef __DYNAMIC_ARRAY_H_
 #define __DYNAMIC_ARRAY_H_
-
-typedef int ELEMENTTYPE;
-/* 避免头文件重复包含 */
-typedef struct dynamicArray
-{
-    ELEMENTTYPE *data;   /* 数组的空间 */
-    int len;     /* 数组的大小 */
-    int capacity;  /* 数组的容量 */
-} dynamicArray;
+#include "common.h"
 
 /* API :application program interface */
 
@@ -34,7 +26,7 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos);
 int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val);
 
 /* 动态数组的销毁 */
-int dynamicArrayDestroy(dynamicArray *pArray, int pos);
+int dynamicArrayDestroy(dynamicArray *pArray);
 
 /* 获取数组的大小 */
 int dynamicArrayGetSize(dynamicArray *pArray, int *pSize);
