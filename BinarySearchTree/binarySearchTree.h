@@ -54,6 +54,9 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree);
 /* 获取二叉搜索数的高度 */
 int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight);
 
+/* 二叉搜索树的删除 */
+int binarySearchTreeDelste(BinarySearchTree *pBstree, ELEMENTTYPE val);
+
 /* 二叉搜索树的销毁 */
 int binarySearchTreeDestory(BinarySearchTree *pBstree);
 
