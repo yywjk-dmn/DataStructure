@@ -1,5 +1,6 @@
 #include "binarySearchTree.h"
 #include "doubleLinkListQueue.h"
+#include "common.h"
 #include <stdlib.h>
 
 /* 状态码 */
@@ -182,13 +183,11 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
     int ret = 0;
     /* 判断是否是空树 */
-    if (pBstree->size== 0)
+    if (pBstree->size == 0)
     {
         (pBstree->size)++;
-
         pBstree->root->data = val;
         return ret;
-
     }
 
     /* travelNode  指向根节点 */
@@ -259,9 +258,6 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
 
     /* 树的大小更新 */
     (pBstree->size)++;
-
-
-
     return ret;
 
 
@@ -276,11 +272,12 @@ static int preOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
         return ret;
 
     }
-    
+    /* 根节点 */
     pBstree->printFunc(node->data);
-    inOrderTravel(pBstree, node->left);
-    
-    inOrderTravel(pBstree, node->right);
+    /* 左节点 */
+    preOrderTravel(pBstree, node->left);
+    /* 右节点 */
+    preOrderTravel(pBstree, node->right);
 
 
 }
@@ -333,9 +330,9 @@ static int postOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
         return ret;
 
     }
-    inOrderTravel(pBstree, node->left);
+    postOrderTravel(pBstree, node->left);
     
-    inOrderTravel(pBstree, node->right);
+    postOrderTravel(pBstree, node->right);
 
     pBstree->printFunc(node->data);
 
@@ -358,7 +355,7 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
 
     /* 初始化队列 */
     DoubleLinkListQueue *queue = NULL;
-    doubleLinkListQueueInit(&queue);
+    doubleLinkListQueueInit(&queue); 
 
     /* 将根结点入队 */
     doubleLinkListQueuePush(queue, pBstree->root);
@@ -428,7 +425,177 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
 
 
 /* 获取二叉搜索数的高度 */
-int binarySearchTreeGetHeight(BinarySearchTree *pBstree)
-{
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
+{   
+#if 0
+    /* 初始化队列 */
+    DoubleLinkListQueue *queue = NULL;
+    doubleLinkListQueueInit(&queue); 
+    
+    /* 队列的头 */
+    queue->head = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
+    if(queue->head == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    /* 清空脏数据 */
+    memset(queue->head, 0,sizeof(DoubleLinkNode) * 1);
 
+    /* 队列的尾 */
+    queue->tail = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
+    if(queue->tail == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    /* 清空脏数据 */
+    memset(queue->tail, 0,sizeof(DoubleLinkNode) * 1);
+
+
+    /* 将根结点入队 */
+    doubleLinkListQueuePush(queue, pBstree->root);
+
+    /* 判断队列是否为空 */
+    BSTreeNode *nodeVal = NULL;
+    int height = 1;
+    while (!doubleLinkListQueueIsEmpty(queue))
+    {
+        doubleLinkListQueueTop(queue, (void **)&nodeVal);
+
+        BSTreeNode *travelNode = NULL;
+        nodeVal->right = travelNode;
+
+        pBstree->printFunc(nodeVal->data); 
+        if (queue->head = travelNode)
+        {
+            travelNode = queue->tail;
+            height++;
+        }
+        doubleLinkListQueuePop(queue);
+
+        /* 将左子树入队 */
+        if (nodeVal->left != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->left);
+        }
+
+        /* 将右子树入队 */
+        if (nodeVal->right != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->right);
+        }
+       
+    }
+
+    /* 释放队列 */
+    doubleLinkListQueueDestory(queue);
+
+    return height;             
+#endif
+    /* 判断是否为空树 */
+    if (pBstree == NULL)
+    {
+        return NULL_PTR;
+    }
+    if (pBstree->size == 0)
+    {
+        return 0;
+    }
+
+    int ret;
+    /* 初始化队列 */
+    DoubleLinkListQueue *queue = NULL;
+    doubleLinkListQueueInit(&queue); 
+
+    /* 将根结点入队 */
+    doubleLinkListQueuePush(queue, pBstree->root);
+    /* 树的高度 */
+    int height = 0;
+    /* 树每一层的结点数量 */
+    int levelSize = 1;
+    
+    BSTreeNode *nodeVal = NULL;
+    while (doubleLinkListQueueIsEmpty(queue))
+    {
+        doubleLinkListQueueTop(queue, (void **)&nodeVal);
+
+        pBstree->printFunc(nodeVal->data);
+        doubleLinkListQueuePop(queue);
+        levelSize--;
+
+        /* 将左子树入队 */
+        if (nodeVal->left != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->left);
+        }
+
+        /* 将右子树入队 */
+        if (nodeVal->right != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->right);
+        }
+
+        /* 树的当前层结点遍历结束 */
+        if (levelSize == 0)
+        {
+            height++;
+            doubleLinkListQueueGetSize(queue, &levelSize);
+
+        }
+    }
+    /* 解引用 */
+    *pHeight = height;
+
+    /* 释放队列 */
+    doubleLinkListQueueDestory(queue);
+    
+}
+
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree)
+{
+    if (pBstree == NULL)
+    {
+        return NULL_PTR;
+    }
+    int ret;
+    /* 初始化队列 */
+    DoubleLinkListQueue *queue = NULL;
+    doubleLinkListQueueInit(&queue); 
+
+    BSTreeNode *nodeVal = NULL;
+    while (!doubleLinkListQueueInit(queue))
+    {
+        
+        doubleLinkListQueueTop(queue, (void **)&nodeVal);
+        doubleLinkListQueuePop(queue);
+
+
+        /* 将左子树入队 */
+        if (nodeVal->left != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->left);
+        }
+
+        /* 将右子树入队 */
+        if (nodeVal->right != NULL)
+        {
+            doubleLinkListQueuePush(queue, nodeVal->right);
+        }
+
+        /* 最后释放 */
+        if (nodeVal)
+        {
+            free(nodeVal);
+            nodeVal = NULL;
+        }
+    }
+    /* 队列的销毁 */
+    doubleLinkListQueueDestory(queue);
+
+    if (pBstree)
+    {
+        free(pBstree);
+        pBstree = NULL;
+
+    }
 }

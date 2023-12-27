@@ -1,7 +1,7 @@
 #ifndef __BINARY_SEARCH_TREE_H_
 #define __BINARY_SEARCH_TREE_H_
 
-#define ELEMENTTYPE void*
+#define ELEMENTTYPE void* 
 typedef struct BSTreeNode
 {
     ELEMENTTYPE data;
@@ -19,11 +19,15 @@ typedef struct BinarySearchTree
     BSTreeNode * root;
     /* 树的结点个数 */
     int size;
+    // /* 树的高度 */
+    // int height;
     /* 钩子函数比较器 放到结构体 */
     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
 
     /* 钩子函数 包装器实现自定义打印函数接口 */
     int (*printFunc)(ELEMENTTYPE val);
+
+    /* 把队列的属性放在结构体里 */
 } BinarySearchTree;
 
 /* 二叉搜索树的初始化 */
@@ -48,7 +52,10 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree);
 int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree);
 
 /* 获取二叉搜索数的高度 */
-int binarySearchTreeGetHeight(BinarySearchTree *pBstree);
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight);
+
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree);
 
 
 #endif
