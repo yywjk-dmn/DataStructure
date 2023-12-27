@@ -601,6 +601,8 @@ static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
     }
 #endif
     BSTreeNode *childNode = node->left != NULL ? node->left : node->right;
+
+    BSTreeNode *delNode = NULL;
     if (childNode)
     {
         childNode->parent = node->parent;
@@ -608,12 +610,8 @@ static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
         if (node->parent == NULL)
         {
             pBstree->root = childNode;
-            if (node)
-            {
-                free(node);
-                node = NULL;
-
-            }
+            delNode = node;
+  
         }
         else
         {
@@ -626,11 +624,8 @@ static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
             {
                 node->parent->right = childNode;
             }
-            if (node)
-            {
-                free(node);
-                node = NULL;
-            }
+            delNode = node;
+   
         }
     }
     else
@@ -640,9 +635,13 @@ static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
         node = NULL;
     }
 
-    return ret;
-    
+    if (delNode)
+    {
+        free(delNode);
+        delNode = NULL;
 
+    }
+    return ret;
 
 }
 
