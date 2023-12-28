@@ -2,7 +2,7 @@
 #define __COMMON_H
 
 
-#define ELEMENTTYPE void *
+#define ELEMENTTYPE void*
 /* 链表结点 取别名*/
 typedef struct DoubleLinkNode
 {

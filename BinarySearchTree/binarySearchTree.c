@@ -1,7 +1,8 @@
 #include "binarySearchTree.h"
 #include "doubleLinkListQueue.h"
-#include "common.h"
+//#include "common.h"
 #include <stdlib.h>
+#include <string.h>
 
 /* 状态码 */
 enum STATUS_CODE
@@ -37,7 +38,7 @@ static BSTreeNode * bstreeNodePreDecessor(BSTreeNode *node);
 /* 获取当前结点的后继结点 */
 static BSTreeNode * bstreeNodeSuccessor(BSTreeNode *node);
 /* 二叉搜索树删除指定的结点 */
-static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node);
+static int binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node);
 
 
 
@@ -49,7 +50,7 @@ static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parent)
     BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode) * 1);
     if (newBstNode == NULL)
     {
-        return MALLOC_ERROR;
+        return NULL;
     }
     memset(newBstNode, 0, sizeof(BSTreeNode) *1);
     {
@@ -366,8 +367,6 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
     while (doubleLinkListQueueIsEmpty(queue))
     {
         doubleLinkListQueueTop(queue, (void **)&nodeVal);
-
-        //printf("data:&d\n", nodeVal->data);
         pBstree->printFunc(nodeVal->data);
         doubleLinkListQueuePop(queue);
 
@@ -385,7 +384,7 @@ int binarySearchTreeLeveOrderTravel(BinarySearchTree *pBstree)
     }
 
     /* 释放队列 */
-    doubleLinkListQueueDestory(queue);
+    doubleLinkListQueueDestroy(queue);
 
     return ret;                                            
 
@@ -422,6 +421,23 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
 {
     return baseAppointValGetBSTressNode(pBstree, val) == NULL ? 0 : 1;
 
+}
+
+/* 获取二叉搜索树的结点个数 */
+int binarySearchTreeGetNodeSize(BinarySearchTree *pBstree, int *pSize)
+{
+    if (pBstree == NULL)
+    {
+        return 0;
+
+    }
+    if (pSize)
+    {
+        *pSize = pBstree->size;
+
+    }
+
+    return pBstree->size;
 }
 
 
@@ -497,12 +513,13 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
     {
         return NULL_PTR;
     }
+    /* 判断大小是否为空 */
     if (pBstree->size == 0)
     {
         return 0;
     }
 
-    int ret;
+    int ret = 0;
     /* 初始化队列 */
     DoubleLinkListQueue *queue = NULL;
     doubleLinkListQueueInit(&queue); 
@@ -515,11 +532,9 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
     int levelSize = 1;
     
     BSTreeNode *nodeVal = NULL;
-    while (doubleLinkListQueueIsEmpty(queue))
+    while (!doubleLinkListQueueIsEmpty(queue))
     {
         doubleLinkListQueueTop(queue, (void **)&nodeVal);
-
-        pBstree->printFunc(nodeVal->data);
         doubleLinkListQueuePop(queue);
         levelSize--;
 
@@ -548,10 +563,11 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
 
     /* 释放队列 */
     doubleLinkListQueueDestory(queue);
+    return ret;
     
 }
 
-static binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
+static int binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
 {
     int ret = 0;
     if (node == NULL)
@@ -675,7 +691,7 @@ int binarySearchTreeDestory(BinarySearchTree *pBstree)
     doubleLinkListQueuePush(queue, pBstree->root);
 
     BSTreeNode *nodeVal = NULL;
-    while (!doubleLinkListQueueInit(queue))
+    while (!doubleLinkListQueueIsEmpty(queue))
     {
         
         doubleLinkListQueueTop(queue, (void **)&nodeVal);
