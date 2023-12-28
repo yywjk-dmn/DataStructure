@@ -393,12 +393,22 @@ int DoubleLinkListReverseForeach(DoubleLinkList * pList, int (*printFunc)(ELEMEN
 }
 
 /* 获取链表 头位置的值 */
-int DoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *val)
+int DoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *pVal)
 {
     #if 0
     return DoubleLinkListGetAppointPosVal(pList, 0, pVal);
     #else
-    
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    if (pVal)
+    {
+        *pVal = pList->head->next->data;
+
+    }
+    return ret;
     #endif
 
 }
