@@ -52,6 +52,8 @@ static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
 static int AVLTreeNodeUpdateHeight(AVLTreeNode *node);
 /* 判断是哪个类型的平衡 */
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
+/* 判断AVL结点的子树的哪个更高 */
+static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 
 
 /* 二叉搜索树的初始化 */
@@ -241,9 +243,75 @@ static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
 
 }
 
+/* 判断AVL结点的子树的哪个更高 */
+static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node)
+{
+    /* 左子树的高度 */
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    /* 右子树的高度 */
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+    if (leftHeight > rightHeight)
+    {
+        return node->left;
+    }
+    else if (leftHeight < rightHeight)
+    {
+        return node->right;
+    }
+    else
+    {
+        /* leftHeight == rightHeight */
+        if (node->parent != NULL && node == node->parent->left)
+        {
+            return node->left;
+        }
+        else
+        {
+            return node->right;
+        }
+    }
+
+    
+}
+
+
 /* 判断是哪个类型的平衡 */
+/* Node一定是最低不平衡结点 */
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
 {
+    /* LL LR RL RR */
+    /* 到这个函数说明树已经不平衡了 */
+    AVLTreeNode *parent = AVLTreeNodeGetChildTaller(node);
+    AVLTreeNode *child = AVLTreeNodeGetChildTaller(parent);
+
+    if (parent == node->left)
+    {
+        if (child == parent->left)
+        {
+            /* LL */
+
+        }
+        else
+        {
+            /* LR */
+
+        }
+    } 
+    else
+    {
+        if (child == parent->left)
+        {
+            /* RL */
+
+        }
+        else
+        {
+            /* RR */
+
+        }
+
+    }
+    
 
 }
 
