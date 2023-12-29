@@ -58,6 +58,10 @@ static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 static int AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
 /* 获取当前节点是父节点的右子树 */
 static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
+/* 当前结点的旋转 */
+static int AVLTreeCurrentNodeRoateRight(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
+/* 当前结点的旋转 */
+static int AVLTreeCurrentNodeRoateLeft(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
 
 
 
@@ -292,6 +296,50 @@ static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
     return (node->parent != NULL) && (node == node->parent->right);
 }
 
+/* 当前结点的旋转 LL 右旋 */
+static int AVLTreeCurrentNodeRoateRight(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
+{
+    AVLTreeNode *parent = node->left;  
+    AVLTreeNode *child = parent->right;  
+
+    node->left = child;  
+    parent->right = node;
+    /* node成为新的根结点 */
+    parent->parent = node->parent;
+
+    if (AVLTreeCurrentNodeIsLeft(node))
+    {
+        node->parent->left = parent;
+    }
+    else if (AVLTreeCurrentNodeIsRight(node))
+    {
+        node->parent->right = parent;
+    }
+    else
+    {
+        /* p成为根结点 */
+        pBstree->root = parent;
+
+    }
+    node->parent = parent;
+
+    if (child != NULL)
+    {
+        child->parent = node;
+    }
+
+    /* 更新高度 */
+    AVLTreeNodeUpdateHeight(node);
+    AVLTreeNodeUpdateHeight(parent);
+    
+
+}
+
+/* 当前结点的旋转 LL 左旋 */
+static int AVLTreeCurrentNodeRoateLeft(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
+{
+
+}
 
 /* 判断是哪个类型的平衡 */
 /* Node一定是最低不平衡结点 */
@@ -306,7 +354,9 @@ static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNod
     {
         if (AVLTreeCurrentNodeIsLeft(child))
         {
-            /* LL */
+            /* LL  右旋 */
+            AVLTreeCurrentNodeRoateRight(pBstree, node);
+            
 
         }
         else if (AVLTreeCurrentNodeIsRight(child))
