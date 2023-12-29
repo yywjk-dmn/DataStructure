@@ -54,6 +54,11 @@ static int AVLTreeNodeUpdateHeight(AVLTreeNode *node);
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
 /* 判断AVL结点的子树的哪个更高 */
 static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node);
+/* 获取当前节点是父节点的左子树 */
+static int AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
+/* 获取当前节点是父节点的右子树 */
+static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
+
 
 
 /* 二叉搜索树的初始化 */
@@ -261,17 +266,30 @@ static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node)
     else
     {
         /* leftHeight == rightHeight */
-        if (node->parent != NULL && node == node->parent->left)
+        if (AVLTreeCurrentNodeIsLeft(node))
         {
             return node->left;
         }
-        else
+        else if (AVLTreeCurrentNodeIsRight(node))
         {
             return node->right;
         }
     }
 
     
+}
+
+
+/* 获取当前节点是父节点的左子树 */
+static int AVLTreeCurrentNodeIsLeft(AVLTreeNode *node)
+{
+    return (node->parent != NULL) && (node == node->parent->left);
+}
+
+/* 获取当前节点是父节点的右子树 */
+static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
+{
+    return (node->parent != NULL) && (node == node->parent->right);
 }
 
 
@@ -284,14 +302,14 @@ static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNod
     AVLTreeNode *parent = AVLTreeNodeGetChildTaller(node);
     AVLTreeNode *child = AVLTreeNodeGetChildTaller(parent);
 
-    if (parent == node->left)
+    if (AVLTreeCurrentNodeIsLeft(parent))
     {
-        if (child == parent->left)
+        if (AVLTreeCurrentNodeIsLeft(child))
         {
             /* LL */
 
         }
-        else
+        else if (AVLTreeCurrentNodeIsRight(child))
         {
             /* LR */
 
@@ -299,12 +317,12 @@ static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNod
     } 
     else
     {
-        if (child == parent->left)
+        if (AVLTreeCurrentNodeIsLeft(child))
         {
             /* RL */
 
         }
-        else
+        else if (AVLTreeCurrentNodeIsRight(child))
         {
             /* RR */
 
